@@ -21,6 +21,10 @@ import Data.Char
 import Data.String
 import Text.Read
 
+-- VALUES
+-- to be passed into createArt function
+
+-- Values for Shape
 triVal :: Float
 triVal = 0.0
 
@@ -30,12 +34,16 @@ sqVal = 1.5
 lineVal :: Float
 lineVal = 100
 
+barVal :: Float
+barVal = 5
+
 modernVal1 :: Float
-modernVal1 = 69
+modernVal1 = 15
 
 modernVal2 :: Float
 modernVal2 = 9
 
+-- Values for Colour (c3, c4)
 orange :: Int
 orange = 40
 
@@ -124,30 +132,7 @@ sanitationHelper255 input (h:t) = do
  }
  else sanitation input (h:t)
 
-sanitationHelperShape :: String -> [Char -> Bool] -> IO ()
-sanitationHelperShape input [] = putStrLn ("\n")
-sanitationHelperShape input (h:t) = do
- if (((length input) > 1) || ((read input > 4))) then do {
-  ; putStrLn $ "\x1b[31m"
-  ; putStrLn("\nInvalid entry. Try again!\n")
-  ; putStrLn $ "\x1b[30m"
-  ; newInput <- getLine
-  ; sanitationHelper255 newInput (h:t)
- }
- else sanitation input (h:t)
 
-
-sanitationHelperColor :: String -> [Char -> Bool] -> IO ()
-sanitationHelperColor input [] = putStrLn ("\n")
-sanitationHelperColor input (h:t) = do
- if (((read input == 0)) || ((read input > 2))) then do {
-  ; putStrLn $ "\x1b[31m"
-  ; putStrLn("\nInvalid entry. Try again!\n")
-  ; putStrLn $ "\x1b[30m"
-  ; newInput <- getLine
-  ; sanitationHelper255 newInput (h:t)
- }
- else sanitation input (h:t)
 
 main :: IO ()
 main = do
@@ -174,13 +159,11 @@ main = do
   putStrLn("\nPick a color by choosing a number:\n1. Red\n2. Blue\n")
   putStrLn $ "\x1b[30m"
   c3 <- getLine
-  sanitationHelperColor c3 [isDigit, (`elem` (map chr[1,2]))]
   
   putStrLn $ "\x1b[34m"
   putStrLn("\nPick another color by choosing a number:\n1. Yellow\n2. Green")
   putStrLn $ "\x1b[30m"
   c4 <- getLine
-  sanitationHelperColor c4 [isDigit, (`elem` (map chr[1,2]))]
 
   ---
   ---
@@ -196,11 +179,10 @@ main = do
   ---
   ---
   putStrLn $ "\x1b[34m"
-  putStrLn("\nPick a style:\n1. Squares\n2. Triangles\n3. Lines\n4. Bars\n5. ~ M O D E R N ~")
+  putStrLn("\nPick a style:\n1. Squares\n2. Triangles\n3. Lines\n4. Smudged\n5. ~ M O D E R N ~")
   putStrLn $ "\x1b[30m"
   style <- getLine
-
-  --sanitationHelperShape style [isDigit, (elem (map chr[1,2,3,4]))]
+  
   if(head style == '1' && head c3 == '1' && head c4 == '1')  --SQUARE, RED and YELLOW
   then do
     createArt cRed cYellow sqVal sqVal (read numQuads) (read backGroundColor)
@@ -241,16 +223,16 @@ main = do
     createArt cBabyBlue cGreen lineVal triVal (read numQuads) (read backGroundColor)
   else if(head style == '4' && head c3 == '1' && head c4 == '1')  --BARS RED and YELLOW
   then do
-    createArt cRed cYellow lineVal triVal (read numQuads) (read backGroundColor)
+    createArt cRed cYellow sqVal barVal (read numQuads) (read backGroundColor)
   else if(head style == '4' && head c3 == '1' && head c4 == '2')  --BARS RED and GREEN
   then do
-    createArt cRed cGreen lineVal triVal (read numQuads) (read backGroundColor)
+    createArt cRed cGreen sqVal barVal (read numQuads) (read backGroundColor)
   else if(head style == '4' && head c3 == '2' && head c4 == '1')  --BARS BLUE and YELLOW
   then do
-    createArt cBabyBlue cYellow lineVal triVal (read numQuads) (read backGroundColor)
+    createArt cBabyBlue cYellow sqVal barVal (read numQuads) (read backGroundColor)
   else if(head style == '4' && head c3 == '2' && head c4 == '2')  --BARS BLUE and GREEN
   then do
-    createArt cBabyBlue cYellow modernVal1 modernVal2 (read numQuads) (read backGroundColor)
+    createArt cBabyBlue cYellow sqVal barVal (read numQuads) (read backGroundColor)
   else if(head style == '5' && head c3 == '1' && head c4 == '1')  --MODERN, RED and YELLOW
   then do
     createArt cRed cYellow modernVal1 modernVal2 (read numQuads) (read backGroundColor)
