@@ -123,7 +123,7 @@ sanitationHelper800 input (h:t) = do
 sanitationHelper255 :: String -> [Char -> Bool] -> IO ()
 sanitationHelper255 input [] = putStrLn ("\n")
 sanitationHelper255 input (h:t) = do
- if (((length input) > 3) || ((read input > 255))) then do {
+ if (((length input) > 3) || ((read input > 300))) then do {
   ; putStrLn $ "\x1b[31m"
   ; putStrLn("\nInvalid entry. Try again!\n")
   ; putStrLn $ "\x1b[30m"
@@ -144,7 +144,7 @@ main = do
   putStrLn $ "\x1b[30m"
 
   putStrLn $ "\x1b[34m"
-  putStrLn("\nPlease choose a number between 0 and 255 inclusive\nThis will modify the background colour")
+  putStrLn("\nPlease choose a number between 0 and 300 inclusive\nThis will modify the background colour")
   putStrLn $ "\x1b[30m"
   backGroundColor <- getLine
   sanitationHelper255 backGroundColor [isDigit, (`elem` (map chr[0..255]))]
@@ -384,7 +384,7 @@ sketchQuad c3 c4 ls = do
 genQuadGrid :: Float -> Float -> Int -> Generate [Quad]
 genQuadGrid x y numberOfQuads  = do
   (w, h) <- getSize @Int
-  vectors <- replicateM numberOfQuads $ do -- 800 replaced with y
+  vectors <- replicateM numberOfQuads $ do -- 800 replaced with numberOfQuads
     v <- V2 <$> getRandomR (3, w `div` 2 - 3) <*> getRandomR (3, h `div` 2 - 3)
     pure $ v ^* 2
   pure . nub . flip map vectors $ \v ->
