@@ -35,13 +35,13 @@ lineVal :: Float
 lineVal = 100
 
 barVal :: Float
-barVal = 5
+barVal = 20
 
 modernVal1 :: Float
-modernVal1 = 15
+modernVal1 = 35
 
 modernVal2 :: Float
-modernVal2 = 9
+modernVal2 = 40
 
 -- Values for Colour (c3, c4)
 orange :: Int
@@ -144,13 +144,13 @@ main = do
   putStrLn $ "\x1b[30m"
 
   putStrLn $ "\x1b[34m"
-  putStrLn("\nA number between 0 and 255 inclusive\n")
+  putStrLn("\nPlease choose a number between 0 and 255 inclusive\nThis will modify the background colour")
   putStrLn $ "\x1b[30m"
   backGroundColor <- getLine
   sanitationHelper255 backGroundColor [isDigit, (`elem` (map chr[0..255]))]
 
   putStrLn $ "\x1b[34m"
-  putStrLn("\nPick a number between 1 and 800 inclusive\n")
+  putStrLn("\nPick a number between 1 and 800 inclusive\nThis will determine how many shapes are generated in your artwork")
   putStrLn $ "\x1b[30m"
   numQuads <- getLine
   sanitationHelper800 numQuads [isDigit, (`elem` (map chr[1..800]))]
@@ -179,7 +179,7 @@ main = do
   ---
   ---
   putStrLn $ "\x1b[34m"
-  putStrLn("\nPick a style:\n1. Squares\n2. Triangles\n3. Lines\n4. Smudged\n5. ~ M O D E R N ~")
+  putStrLn("\nPick a style:\n1. Squares\n2. Triangles\n3. Vertically Sliced\n4. Horizontally Smudged\n5. ~ M O D E R N ~")
   putStrLn $ "\x1b[30m"
   style <- getLine
   
